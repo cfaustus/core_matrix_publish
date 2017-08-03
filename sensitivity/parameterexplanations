@@ -1,0 +1,16 @@
+Explanation of parameter ranges
+
+
+rmax per capita per day
+canis domesticus -- 0.009 (pianka 2000)
+bos taurus - 0.001 (Fenchel 1974)(Smith 1954)
+human-  0.0003 (Pianka 2000) 
+Rattus norvegicus - 0.0148 
+0.03 mus musculus
+
+rmax per capita per year
+canis domesticus -- 3.285 (pianka 2000)
+bos taurus - 0.365 (Fenchel 1974)(Smith 1954)
+human-  0.1095 (Pianka 2000) 
+Rattus norvegicus - 5.402
+0.03 mus musculus - 10.95
