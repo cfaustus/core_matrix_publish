@@ -16,7 +16,12 @@ source('deterministic_ngm_cm_func.R')
 # Range of phi
 phi = seq(0.01, 1, by = 0.001) #vector for different forested proportions
 epsilon = rep.int(1,length(phi)) # no change in edge effects
-beta.wDD = c(0.00136, 0.0004)
+beta.wDD1 = 0.00136
+beta.wDD2 = 0.0004
+
+beta_c = R0_c*(paramsD[['alpha']][1] + paramsD[['gamma']][1] + paramsD[['d']][1])
+beta_m = R0_m*(paramsD[['alpha']][2] + paramsD[['gamma']][2] + paramsD[['d']][2])
+print(c(beta_c, beta_m))
 beta.wFD = c(beta_c, beta_m)
 
 plot(phi, epsilon, col = 'black',
@@ -76,9 +81,7 @@ dim(export)
 
 ############################################################
 ## FREQUENCY DEPENDENT R0
-beta_c = R0_c*(paramsD[['alpha']][1] + paramsD[['gamma']][1] + paramsD[['d']][1])
-beta_m = R0_m*(paramsD[['alpha']][2] + paramsD[['gamma']][2] + paramsD[['d']][2])
-print(c(beta_c, beta_m))
+
 # R0; plotting within and between host R0
 paramsF <- list(d = c(0.1, 0.02),
                 k = c(100, 100),
