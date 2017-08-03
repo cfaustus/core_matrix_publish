@@ -16,6 +16,13 @@ source('deterministic_ngm_cm_func.R')
 # Range of phi
 phi = seq(0.01, 1, by = 0.001) #vector for different forested proportions
 epsilon = rep.int(1,length(phi)) # no change in edge effects
+beta.wDD = c(0.00136, 0.0004)
+beta.wFD = c(beta_c, beta_m)
+
+plot(phi, epsilon, col = 'black',
+     ylab = 'relative rates')
+lines(phi, beta.wDD, col = 'navy')
+lines(phi, beta.wFD, col = 'gray80')
 #epsilon = (1+cos(phi*(pi*3/2)-2.3))
 
 btw= seq(0,1, by=0.05) # aka psi
@@ -26,7 +33,7 @@ btw= seq(0,1, by=0.05) # aka psi
 # Parameters defined (core; matrix) for DD transmission
 paramsD <- list(d = c(0.1, 0.02),
                 k = c(100, 100),
-                beta.wDD = c(0.00136, 0.0004),
+                #beta.wDD = c(0.00136, 0.0004),
                 gamma = c(0.03, 0.05),
                 alpha = c(0.001, 0.01),
                 sigma = c(0.05, 0.05))
@@ -75,7 +82,7 @@ print(c(beta_c, beta_m))
 # R0; plotting within and between host R0
 paramsF <- list(d = c(0.1, 0.02),
                 k = c(100, 100),
-                beta.wFD = c(beta_c, beta_m),
+                #beta.wFD = c(beta_c, beta_m),
                 gamma = c(0.03, 0.05),
                 alpha = c(0.001, 0.01),
                 sigma = c(0.05, 0.05))
