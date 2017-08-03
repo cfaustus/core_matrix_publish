@@ -10,11 +10,12 @@
 rm(list = ls())
 
 library(matrixcalc)
-source('deterministic/ngm_cm_func.R')
+source('deterministic_ngm_cm_func.R')
 
 # Range of phi
 phi = seq(0.01, 1, by = 0.001) #vector for different forested proportions
-epsilon = (1+cos(phi*(pi*3/2)-2.3))
+epsilon = rep.int(1,length(phi)) # no change in edge effects
+#epsilon = (1+cos(phi*(pi*3/2)-2.3))
 
 btw= seq(0,1, by=0.05) # aka psi
 
@@ -63,7 +64,7 @@ plotR0(phi, R0.c.dd, R0.m.dd, R0.combin.dd)
 dim(R0.combin.dd)
 export = rbind(R0.combin.dd,R0.c.dd,R0.m.dd)
 dim(export)
-write.csv(export,'deterministic/output/scenario3_DD.csv')
+#write.csv(export,'output/scenario3_DD.csv')
 
 ############################################################
 ## FREQUENCY DEPENDENT R0
@@ -104,4 +105,4 @@ dim(R0.combin.fd)
 plotR0(phi, R0.c.fd, R0.m.fd, R0.combin.fd)
 export = rbind(R0.combin.fd,R0.c.fd,R0.m.fd)
 dim(export)
-write.csv(export,'deterministic/output/scenario3_FD.csv')
+#write.csv(export,'deterministic/output/scenario3_FD.csv')
