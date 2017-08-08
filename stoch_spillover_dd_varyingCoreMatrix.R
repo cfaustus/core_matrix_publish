@@ -23,56 +23,58 @@ source('spillover_dd_func.R')
 #####   Routine to run program 
 set.seed(56856583)
 
-### how parameters change over forestation gradient
+### how parameters change over conversion gradient
 phi = seq(0,1, by=0.01)
-K = 1+phi*400
-K.c = 400*(1.01-phi)
-epsilon = (1+cos(phi*(pi*3/2)-2.3)) 
-spillover = K.c * 0.0001 *epsilon
+K = 1 + phi*400
+K_c = 400*(1.01-phi)
+epsilon = (1 + cos(phi*(pi*3/2)-2.3)) 
+spillover = K_c * 0.0001 *epsilon
 plot(phi, spillover, pch=20, ylab= "spillover force of infection",
      main = "with edge effects", bty = 'n')
-plot(phi, epsilon, ylim=c(0,2))
-lines(phi, spillover, col='darkred')
-mat <- as.data.frame(matrix(NA, nrow=length(phi), ncol=5))
-epidemic.size<-seq(0, 400, length.out = 401) #sets up bins by 2 up to 200
-nsims=1000
-out.matrix<-matrix(NA,nrow=length(phi),ncol=length(epidemic.size)-1)
-cases.matrix<-matrix(NA,nrow=length(phi),ncol=nsims)
+plot(phi, epsilon, ylim = c(0,2))
+lines(phi, spillover, col = 'darkred')
+
+## set up matrix to tabulate data 
+mat = as.data.frame(matrix(NA, nrow=length(phi), ncol=5))
+epidemic_size = seq(0, 400, length.out = 401) #sets up bins by 2 up to 200
+nsims = 1000
+out_matrix = matrix(NA, nrow = length(phi), ncol = length(epidemic_size)-1)
+cases_matrix = matrix(NA, nrow = length(phi), ncol = nsims)
 
 for(i in 2:length(phi)){
   #i=2
   #initial conditions
-  xstart <- c(time=0,
-              X=K[i],
-              Y=0,
-              Z=0,
-              cases=0) 
+  xstart <- c(time = 0,
+              X = K[i],
+              Y = 0,
+              Z = 0,
+              cases = 0) 
   params <- c(mu = mu_sim,
               beta = beta_sim,
               gamma = gamma_sim,
-              spill=spillover[i],
+              spill = spillover[i],
               alpha = alpha_sim) #parameters
   #run silumations
-  simdat <- rdply(
+  simdat = rdply(
     nsims,
     SIR.simul(xstart,params)
   )
-  results<-aggregate(cases~.n,data=simdat,FUN=max) #finds maximum number of cases per iteration
-  cases.matrix[i,]<-results$cases
-  out.hist<-hist(results$cases,plot=T,breaks=epidemic.size) #doesn't plot, but groups cases into bins
-  out.matrix[i,]<-out.hist$counts #puts counts into out.matrix
+  results = aggregate(cases~.n,data=simdat,FUN=max) #finds maximum number of cases per iteration
+  cases_matrix[i,] = results$cases
+  out.hist = hist(results$cases,plot=T,breaks=epidemic_size) #doesn't plot, but groups cases into bins
+  out_matrix[i,] = out.hist$counts #puts counts into out_matrix 
   rm(simdat,results,out.hist) #clean up after each 1000 iterations 
 }
 
-dim(out.matrix)
-summary(out.matrix)
-out<-as.data.frame(out.matrix)
-colnames(out) <-epidemic.size[0:400]
+dim(out_matrix)
+summary(out_matrix)
+out<-as.data.frame(out_matrix)
+colnames(out) <-epidemic_size[0:400]
 rownames(out)<- phi
-write.csv(out, file = "output/ddsimulationwithepsilon_phi_400sims_24may.csv", row.names=TRUE)
+#write.csv(out, file = "output/ddsimulationwithepsilon_phi_400sims_24may.csv", row.names=TRUE)
 
-dim(cases.matrix)
-summary(cases.matrix)
-out2<-as.data.frame(cases.matrix)
+dim(cases_matrix)
+summary(cases_matrix)
+out2<-as.data.frame(cases_matrix)
 rownames(out2)<- phi
-write.csv(out2, file = "output/ddsimulationwithepsilon_phi_400sims_cases_24may.csv", row.names=TRUE)
+#write.csv(out2, file = "output/ddsimulationwithepsilon_phi_400sims_cases_24may.csv", row.names=TRUE)
