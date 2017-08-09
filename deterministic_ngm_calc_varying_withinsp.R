@@ -6,6 +6,12 @@
 # varying 
 # just by calculating a pathogen that comes into a completely naive population 
 # at carrying capacity for that proportion converted
+
+## i.	Change  to vary with land conversion. Could have one increase within
+## host transmission but not between host transmission, another could do both. 
+## [for immune mediated susceptibility vs. crowding? Is there a difference] 
+## (R1, major.C2/ minor.C7/ minor.C8; R2, minor.C1)
+
 ############################################################
 
 rm(list = ls())
