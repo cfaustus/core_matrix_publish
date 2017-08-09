@@ -19,10 +19,13 @@ rm(list = ls())
 library(matrixcalc)
 source('deterministic_ngm_cm_func.R')
 
-# Range of phi
+# global params
 phi = seq(0.01, 1, by = 0.001) #vector for different forested proportions
-epsilon = rep.int(1,length(phi)) # no change in edge effects
+epsilon = (1+cos(phi*(pi*3/2)-2.3))
+#epsilon = rep.int(1,length(phi)) # no change in edge effects
 psi = seq(0,1, by=0.05) # aka psi
+R0C = 0.5
+R0M = 1.5
 
 ############################################################
 ## DENSITY DEPENDENT R0
@@ -35,14 +38,9 @@ paramsD <- list(d = c(0.1, 0.02),
                 alpha = c(0.001, 0.01),
                 sigma = c(0.05, 0.05))
 
-R0C = 0.5
-R0M = 1.5
-(paramsD[['alpha']][1] + paramsD[['gamma']][1] + paramsD[['d']][1])*R0C/paramsD[['k']][1]
-(paramsD[['alpha']][2] + paramsD[['gamma']][2] + paramsD[['d']][2])*R0M/paramsD[['k']][2]
+max_beta_c = (paramsD[['alpha']][1] + paramsD[['gamma']][1] + paramsD[['d']][1])*R0C/paramsD[['k']][1]
+max_beta_m = (paramsD[['alpha']][2] + paramsD[['gamma']][2] + paramsD[['d']][2])*R0M/paramsD[['k']][2]
 
-R0_c = (paramsD[['beta.wDD']][1]*paramsD[['k']][1])/(paramsD[['alpha']][1] + paramsD[['gamma']][1] + paramsD[['d']][1])
-R0_m = (paramsD[['beta.wDD']][2]*paramsD[['k']][2])/(paramsD[['alpha']][2] + paramsD[['gamma']][2] + paramsD[['d']][2])
-print(c(R0_c,R0_m))
 
 R0.c.dd = numeric(length(phi)) #assuming no matrix species present (or not transmissible)
 R0.m.dd = numeric(length(phi)) #assuming no patch species present (or not transmissible)
