@@ -22,21 +22,7 @@ source('deterministic_ngm_cm_func.R')
 # Range of phi
 phi = seq(0.01, 1, by = 0.001) #vector for different forested proportions
 epsilon = rep.int(1,length(phi)) # no change in edge effects
-beta.wDD1 = 0.00136
-beta.wDD2 = 0.0004
-
-beta_c = R0_c*(paramsD[['alpha']][1] + paramsD[['gamma']][1] + paramsD[['d']][1])
-beta_m = R0_m*(paramsD[['alpha']][2] + paramsD[['gamma']][2] + paramsD[['d']][2])
-print(c(beta_c, beta_m))
-beta.wFD = c(beta_c, beta_m)
-
-plot(phi, epsilon, col = 'black',
-     ylab = 'relative rates')
-lines(phi, beta.wDD, col = 'navy')
-lines(phi, beta.wFD, col = 'gray80')
-#epsilon = (1+cos(phi*(pi*3/2)-2.3))
-
-btw= seq(0,1, by=0.05) # aka psi
+psi = seq(0,1, by=0.05) # aka psi
 
 ############################################################
 ## DENSITY DEPENDENT R0
@@ -60,11 +46,28 @@ print(c(R0_c,R0_m))
 
 R0.c.dd = numeric(length(phi)) #assuming no matrix species present (or not transmissible)
 R0.m.dd = numeric(length(phi)) #assuming no patch species present (or not transmissible)
-R0.combin.dd = data.frame(matrix(NA, nrow = length(btw), ncol = length(phi)))
+R0.combin.dd = data.frame(matrix(NA, nrow = length(psi), ncol = length(phi)))
+beta.wDD1 = 0.00136
+beta.wDD2 = 0.0004
 
-for (j in 1:length(btw)){
+beta_c = R0_c*(paramsD[['alpha']][1] + paramsD[['gamma']][1] + paramsD[['d']][1])
+beta_m = R0_m*(paramsD[['alpha']][2] + paramsD[['gamma']][2] + paramsD[['d']][2])
+print(c(beta_c, beta_m))
+beta.wFD = c(beta_c, beta_m)
+
+plot(phi, epsilon, col = 'black',
+     ylab = 'relative rates')
+lines(phi, beta.wDD, col = 'navy')
+lines(phi, beta.wFD, col = 'gray80')
+#epsilon = (1+cos(phi*(pi*3/2)-2.3))
+
+
+
+
+
+for (j in 1:length(psi)){
   for (i in 1:length(phi)){
-    mat_F <- matrix.F.DD(paramsD[["beta.wDD"]], paramsD[["beta.wDD"]]*btw[j], epsilon[i], paramsD[['k']], phi[i])
+    mat_F <- matrix.F.DD(paramsD[["beta.wDD"]], paramsD[["beta.wDD"]]*psi[j], epsilon[i], paramsD[['k']], phi[i])
     mat_V <- matrix.V(paramsD[["alpha"]], paramsD[["gamma"]], paramsD[["d"]])
     
     mat_G <- matrix.inverse(mat_V) %*% mat_F
@@ -98,11 +101,11 @@ paramsF <- list(d = c(0.1, 0.02),
 
 R0.m.fd = numeric(length(phi)) #
 R0.c.fd = numeric(length(phi)) #
-R0.combin.fd = data.frame(matrix(NA, nrow = length(btw), ncol = length(phi)))
+R0.combin.fd = data.frame(matrix(NA, nrow = length(psi), ncol = length(phi)))
 
-for (j in 1:length(btw)){
+for (j in 1:length(psi)){
   for (i in 1:length(phi)){
-    mat_F <- matrix.F.FD(paramsF[["beta.wFD"]], paramsF[["beta.wFD"]]*btw[j], 
+    mat_F <- matrix.F.FD(paramsF[["beta.wFD"]], paramsF[["beta.wFD"]]*psi[j], 
                          epsilon[i])
     mat_V <- matrix.V(paramsF[["alpha"]], paramsF[["gamma"]], paramsF[["d"]])
     
