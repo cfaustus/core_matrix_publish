@@ -42,17 +42,14 @@ max_beta_c = (paramsD[['alpha']][1] + paramsD[['gamma']][1] + paramsD[['d']][1])
 max_beta_m = (paramsD[['alpha']][2] + paramsD[['gamma']][2] + paramsD[['d']][2])*R0M/paramsD[['k']][2]
 
 
-R0.c.dd = numeric(length(phi)) #assuming no matrix species present (or not transmissible)
-R0.m.dd = numeric(length(phi)) #assuming no patch species present (or not transmissible)
+R0.c.dd = numeric(length(phi)) 
+R0.m.dd = numeric(length(phi)) 
 R0.combin.dd = data.frame(matrix(NA, nrow = length(psi), ncol = length(phi)))
-beta.wDD1 = 0.00136
-beta.wDD2 = 0.0004
+
 
 beta_c = R0_c*(paramsD[['alpha']][1] + paramsD[['gamma']][1] + paramsD[['d']][1])
 beta_m = R0_m*(paramsD[['alpha']][2] + paramsD[['gamma']][2] + paramsD[['d']][2])
-print(c(beta_c, beta_m))
-beta.wFD = c(beta_c, beta_m)
-
+beta = list(c(beta_c, beta_m))
 plot(phi, epsilon, col = 'black',
      ylab = 'relative rates')
 lines(phi, beta.wDD, col = 'navy')
@@ -65,15 +62,15 @@ lines(phi, beta.wFD, col = 'gray80')
 
 for (j in 1:length(psi)){
   for (i in 1:length(phi)){
-    mat_F <- matrix.F.DD(paramsD[["beta.wDD"]], paramsD[["beta.wDD"]]*psi[j], epsilon[i], paramsD[['k']], phi[i])
+    mat_F <- matrix.F.DD(beta[1][i], paramsD[["beta.wDD"]]*psi[j], epsilon[i], paramsD[['k']], phi[i])
     mat_V <- matrix.V(paramsD[["alpha"]], paramsD[["gamma"]], paramsD[["d"]])
     
     mat_G <- matrix.inverse(mat_V) %*% mat_F
     eigen.ngm.dd <- eigen(mat_G)
     R0.combin.dd[j,i] = eigen.ngm.dd$values[[1]]
-    R0.c.dd[i] = (paramsD[["beta.wDD"]][1]*paramsD[["k"]][1]*(1.01-phi[i]))/
+    R0.c.dd[i] = (beta_c[i]*paramsD[["k"]][1]*(1.01-phi[i]))/
       (paramsD[["alpha"]][1] + paramsD[["gamma"]][1] + paramsD[["d"]][1])
-    R0.m.dd[i] = (paramsD[["beta.wDD"]][2]*paramsD[["k"]][2]*phi[i])/
+    R0.m.dd[i] = (beta_m[i]*paramsD[["k"]][2]*phi[i])/
       (paramsD[["alpha"]][2] + paramsD[["gamma"]][2] + paramsD[["d"]][2])
   }
 }
