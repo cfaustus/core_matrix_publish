@@ -31,7 +31,7 @@ colnames(s1)<-c(
   'k.c',
   'gamma.c', 
   'alpha.c',
-  'phi',
+  'psi',
   'rmax.m',
   'd.m',
   'k.m',
