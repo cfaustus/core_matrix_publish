@@ -49,8 +49,8 @@ R0_C = 1.5 # R0 in core at phi = 1.0
 R0_M = 0.5 # R0 in matrix at phi = 1.0
 
 ## calculate beta.cp and beta.mm based on 100% forest cover
-#s1$beta.cp <- R0_C*(s1[['gamma.c']]+s1[['alpha.c']]*s1[['d.c']]+s1[['d.c']])/(1/s1[['k.c']])
-#s1$beta.mm <- R0_M*(s1[['gamma.m']]+s1[['alpha.m']]*s1[['d.m']]+s1[['d.m']])/(0.5/s1[['k.m']])
+#s1$beta.c <- R0_C*(s1[['gamma.c']]+s1[['alpha.c']]*s1[['d.c']]+s1[['d.c']])/(1/s1[['k.c']])
+#s1$beta.m <- R0_M*(s1[['gamma.m']]+s1[['alpha.m']]*s1[['d.m']]+s1[['d.m']])/(1/s1[['k.m']]) # is this right?
 s1$beta.c <- R0_C*(s1[['gamma.c']]+s1[['alpha.c']]*s1[['d.c']]+s1[['d.c']])
 s1$beta.m <- R0_M*(s1[['gamma.m']]+s1[['alpha.m']]*s1[['d.m']]+s1[['d.m']])
 
