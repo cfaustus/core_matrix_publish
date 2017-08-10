@@ -12,8 +12,7 @@ s1 <- lhs(1000,rbind(
   c(0,10), #alpha.p
   #####################################
   # transmission between patch and matrix
-  c(0.01,1), #beta.pm
-  c(0.01,1), #beta.mp
+  c(0.01,1), 
   #####################################
   #ecological characteristics of humans
   c(0,0.1095), #rmax.m
@@ -27,13 +26,12 @@ s1 <- lhs(1000,rbind(
 )
 
 colnames(s1)<-c(
-  'rmax.p',
-  'd.p',
-  'k.p',
-  'gamma.p', 
-  'alpha.p',
-  'beta.pm',
-  'beta.mp',
+  'rmax.c',
+  'd.c',
+  'k.c',
+  'gamma.c', 
+  'alpha.c',
+  'phi',
   'rmax.m',
   'd.m',
   'k.m',
