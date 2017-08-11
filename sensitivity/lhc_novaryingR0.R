@@ -12,7 +12,7 @@ s1 <- lhs(1000,rbind(
   c(0,10), #alpha.c
   #####################################
   # transmission between patch and matrix
-  c(0.01,1), 
+  c(0.01,1), #psi
   #####################################
   #ecological characteristics of humans
   c(0,0.1095), #rmax.m
@@ -56,5 +56,5 @@ s1$beta.m <- R0_M*(s1[['gamma.m']]+s1[['alpha.m']]*s1[['d.m']]+s1[['d.m']])
 
 head(s1)
 
-write.csv(s1,"sensitivity/lhc/lhc_humans_fd_cR01.5_mR00.5.csv", row.names = F)
+write.csv(s1,"lhc/lhc_humans_fd_cR01.5_mR00.5.csv", row.names = F)
 
