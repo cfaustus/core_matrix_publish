@@ -13,7 +13,8 @@ ratio = pcc(X=s1.var,y=(out['I.c']/sum(out[c('I.c','S.c','R.c')]))/(out['I.m']/s
            rank=T, nboot=1e4,conf=0.95)
 core = pcc(X=s1.var,y=(out['I.c']/sum(out[c('I.c','S.c','R.c')])),
            rank=T, nboot=1e4,conf=0.95)
-
+matrix = pcc(X=s1.var,y=(out['I.m']/sum(out[c('I.m','S.m','R.m')])),
+           rank=T, nboot=1e3,conf=0.95)
 ratio.inf = pcc(X=s1.var,y=(out['I.c']/out['I.m']),
            rank=T, nboot=1e4,conf=0.95)
 core.inf = pcc(X=s1.var,y=out['I.c'],
@@ -25,11 +26,11 @@ gamma.beta  =  pcc(X=s1.demo,y=out['I.m'],
 # running correlation on number cases vs. prevalence is equivalent 
 
 library(gplots)
-barplot2(as.vector(gamma.beta$PRCC[[1]]), beside = TRUE, horiz = FALSE, names.arg = names(gamma.beta),
-         plot.ci = TRUE, ci.u = gamma.beta$PRCC[[5]], ci.l = gamma.beta$PRCC[[4]], 
+barplot2(as.vector(matrix$PRCC[[1]]), beside = TRUE, horiz = FALSE, names.arg = names(s1.var),
+         plot.ci = FALSE, ci.u = matrix$PRCC[[5]], ci.l = matrix$PRCC[[4]], 
          col='gray',ci.lwd=3, ci.width = 0, ylim=c(-0.15,0.15), 
          las=2,  cex.names=0.7, ylab=expression(rho),
-         main='ratio of infections C/M')
+         main='prevalence of matrix infections')
 
 barplot2(as.vector(patch.inf$PRCC[[1]]), beside = TRUE, horiz = FALSE, names.arg = names(s1.var),
          plot.ci = TRUE, ci.u = patch$PRCC[[5]], ci.l = patch$PRCC[[4]], 
