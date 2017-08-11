@@ -2,19 +2,19 @@
 #
 library(sensitivity)
 #out is the dataframe that the sensitivity_func_cluster outputs
-out = read.csv("output/out_fd_R0vary_11aug17.csv", header =T)
-s1 = read.csv("lhc/lhc_humans_fd_R0vary.csv",header=T) 
+out = read.csv("output/out_fd_R0vary_phi0.1_11aug17.csv", header =T)
+s1 = read.csv("lhc/lhc_humans_fd_R0vary_phi0.1.csv",header=T) 
 var = c("rmax.c", 'd.c', 'k.c', 'gamma.c', 'alpha.c', 'psi', 
          "rmax.m", 'd.m', 'k.m', 'gamma.m', 'alpha.m',
          'beta.c', 'beta.m', 'R0_C', 'R0_M')
 s1.var = s1[ , var]
 s1.demo = s1.var[,c("rmax.c", 'd.c', 'k.c')]
 ratio = pcc(X=s1.var,y=(out['I.c']/sum(out[c('I.c','S.c','R.c')]))/(out['I.m']/sum(out[c('I.m','S.m','R.m')])),
-           rank=T, nboot=1e2,conf=0.95)
+           rank=T, nboot=0,conf=0.95)
 core = pcc(X=s1.var,y=(out['I.c']/sum(out[c('I.c','S.c','R.c')])),
-           rank=T, nboot=1e2,conf=0.95)
+           rank=T, nboot=0,conf=0.95)
 matrix = prcc(X=s1.var,y=(out['I.m']/sum(out[c('I.m','S.m','R.m')])),
-           rank=T, nboot=1e2,conf=0.95)
+           rank=T, nboot=0,conf=0.95)
 ratio.inf = pcc(X=s1.var,y=(out['I.c']/out['I.m']),
            rank=T, nboot=1e4,conf=0.95)
 core.inf = pcc(X=s1.var,y=out['I.c'],
@@ -26,11 +26,11 @@ gamma.beta  =  pcc(X=s1.demo,y=out['I.m'],
 # running correlation on number cases vs. prevalence is equivalent 
 
 library(gplots)
-barplot2(as.vector(core$PRCC[[1]]), beside = TRUE, horiz = FALSE, names.arg = names(s1.var),
-         plot.ci = FALSE, ci.u = core$PRCC[[5]], ci.l = core$PRCC[[4]], 
+barplot2(as.vector(matrix$PRCC[[1]]), beside = TRUE, horiz = FALSE, names.arg = names(s1.var),
+         plot.ci = FALSE, ci.u = matrix$PRCC[[5]], ci.l = matrix$PRCC[[4]], 
          col='gray',ci.lwd=3, ci.width = 0, ylim=c(-0.15,0.15), 
          las=2,  cex.names=0.7, ylab=expression(rho),
-         main='prevalence of matrix infections')
+         main='prevalence of core infections')
 
 barplot2(as.vector(patch.inf$PRCC[[1]]), beside = TRUE, horiz = FALSE, names.arg = names(s1.var),
          plot.ci = TRUE, ci.u = patch$PRCC[[5]], ci.l = patch$PRCC[[4]], 

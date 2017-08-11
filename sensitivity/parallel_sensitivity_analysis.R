@@ -9,6 +9,6 @@ out <- sfClusterApplyLB(param.list,super_ode,times=times)
 out2 <- as.data.frame(t(sapply(out,function(x) x)))
 out3 <- data.frame(matrix(unlist(out2), nrow=1000, byrow=T))
 colnames(out3)<-names(out2)
-write.csv(out3,"output/out_fd_R0vary_11aug17.csv",row.names = F)
+write.csv(out3,"output/out_fd_R0vary_phi0.1_11aug17.csv",row.names = F)
 
 sfStop()
