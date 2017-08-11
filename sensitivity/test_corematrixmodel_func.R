@@ -11,7 +11,7 @@ core.matrix.model <- function(Time, State, Parameters) {
     dI.m<-((beta.m*S.m*I.m)/N.m^kappa+(epsilon*psi*beta.c*S.m*I.c)/(epsilon*N.c+N.m)^kappa) - I.m*(alpha.m*d.c+d.m+gamma.m)
     dR.m<-I.m*gamma.m-R.m*d.m
     
-    return(list(c(dS.c, dI.c, dR.c,dS.m, dI.m, dR.m)))
+    return(list(c(S.c, I.c, R.c,S.m, I.m, R.m)))
   })
 }
 
@@ -28,6 +28,6 @@ core.matrix.model_f <- function(Time, State, Parameters) {
     dI.m<-((beta.mm*S.m*I.m)/N.m^kappa+(epsilon*psi*beta.c*S.m*I.c)/(epsilon*N.c+N.m)^kappa) - I.m*(alpha.m*d.c+d.m+gamma.m)
     dR.m<-I.m*gamma.m-R.m*d.m
     
-    return(list(c(dS.c, dI.c, dR.c,dS.m, dI.m, dR.m)))
+    return(list(c(S.c, I.c, R.c, S.m, I.m, R.m)))
   })
 }
