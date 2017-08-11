@@ -26,8 +26,8 @@ gamma.beta  =  pcc(X=s1.demo,y=out['I.m'],
 # running correlation on number cases vs. prevalence is equivalent 
 
 library(gplots)
-barplot2(as.vector(matrix$PRCC[[1]]), beside = TRUE, horiz = FALSE, names.arg = names(s1.var),
-         plot.ci = FALSE, ci.u = matrix$PRCC[[5]], ci.l = matrix$PRCC[[4]], 
+barplot2(as.vector(core$PRCC[[1]]), beside = TRUE, horiz = FALSE, names.arg = names(s1.var),
+         plot.ci = FALSE, ci.u = core$PRCC[[5]], ci.l = core$PRCC[[4]], 
          col='gray',ci.lwd=3, ci.width = 0, ylim=c(-0.15,0.15), 
          las=2,  cex.names=0.7, ylab=expression(rho),
          main='prevalence of matrix infections')
