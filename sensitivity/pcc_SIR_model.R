@@ -2,19 +2,19 @@
 #
 library(sensitivity)
 #out is the dataframe that the sensitivity_func_cluster outputs
-out = read.csv("output/out_fd_R01.5core_R00.5matrix_11aug17.csv", header =T)
-s1 = read.csv("lhc/lhc_humans_fd_cR01.5_mR00.5.csv",header=T) 
+out = read.csv("output/out_fd_R0vary_11aug17.csv", header =T)
+s1 = read.csv("lhc/lhc_humans_fd_R0vary.csv",header=T) 
 var = c("rmax.c", 'd.c', 'k.c', 'gamma.c', 'alpha.c', 'psi', 
          "rmax.m", 'd.m', 'k.m', 'gamma.m', 'alpha.m',
-         'beta.c', 'beta.m')
+         'beta.c', 'beta.m', 'R0_C', 'R0_M')
 s1.var = s1[ , var]
 s1.demo = s1.var[,c("rmax.c", 'd.c', 'k.c')]
 ratio = pcc(X=s1.var,y=(out['I.c']/sum(out[c('I.c','S.c','R.c')]))/(out['I.m']/sum(out[c('I.m','S.m','R.m')])),
-           rank=T, nboot=1e4,conf=0.95)
+           rank=T, nboot=1e2,conf=0.95)
 core = pcc(X=s1.var,y=(out['I.c']/sum(out[c('I.c','S.c','R.c')])),
-           rank=T, nboot=1e4,conf=0.95)
-matrix = pcc(X=s1.var,y=(out['I.m']/sum(out[c('I.m','S.m','R.m')])),
-           rank=T, nboot=1e3,conf=0.95)
+           rank=T, nboot=1e2,conf=0.95)
+matrix = prcc(X=s1.var,y=(out['I.m']/sum(out[c('I.m','S.m','R.m')])),
+           rank=T, nboot=1e2,conf=0.95)
 ratio.inf = pcc(X=s1.var,y=(out['I.c']/out['I.m']),
            rank=T, nboot=1e4,conf=0.95)
 core.inf = pcc(X=s1.var,y=out['I.c'],
