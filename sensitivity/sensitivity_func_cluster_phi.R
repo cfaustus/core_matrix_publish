@@ -15,13 +15,41 @@ super_ode <- function(x,times){
       N.c = S.c+I.c+R.c
       N.m = S.m+I.m+R.m
       
-      dS.c = N.c*(rmax.c+d.c)*(1-N.c/(k.c*(1.01-phi))) - ((S.c*beta.c*I.c)/N.c^kappa+(epsilon*beta.m*psi*I.m*S.c)/(N.c+epsilon*N.m)^kappa) - d.c*S.c 
-      dI.c = (beta.c*S.c*I.c)/N.c^kappa+(epsilon*beta.m*psi*S.c*I.m)/(N.c+epsilon*N.m)^kappa - I.c*(alpha.c*d.c+d.c+gamma.c)
-      dR.c = I.c*gamma.c-R.c*d.c
+      # dS.c = N.c*(rmax.c+d.c)*(1-N.c/(k.c*(1.01-phi))) - ((S.c*beta.c*I.c)/N.c^kappa+(epsilon*beta.m*psi*I.m*S.c)/(N.c+epsilon*N.m)^kappa) - d.c*S.c 
+      # dI.c = (beta.c*S.c*I.c)/N.c^kappa+(epsilon*beta.m*psi*S.c*I.m)/(N.c+epsilon*N.m)^kappa - I.c*(alpha.c*d.c+d.c+gamma.c)
+      # dR.c = I.c*gamma.c-R.c*d.c
+      # 
+      # 
+      # dS.m = N.m*(rmax.m+d.m)*(1-N.m/(k.m*phi)) - ((beta.m*S.m*I.m)/N.m^kappa+(epsilon*psi*beta.c*S.m*I.c)/(epsilon*N.c+N.m)^kappa) - d.m*S.m 
+      # dI.m = ((beta.m*S.m*I.m)/N.m^kappa+(epsilon*psi*beta.c*S.m*I.c)/(epsilon*N.c+N.m)^kappa) - I.m*(alpha.m*d.c+d.m+gamma.m)
+      # dR.m = I.m*gamma.m-R.m*d.m
       
-      dS.m = N.m*(rmax.m+d.m)*(1-N.m/(k.m*phi)) - ((beta.m*S.m*I.m)/N.m^kappa+(epsilon*psi*beta.c*S.m*I.c)/(epsilon*N.c+N.m)^kappa) - d.m*S.m 
-      dI.m = ((beta.m*S.m*I.m)/N.m^kappa+(epsilon*psi*beta.c*S.m*I.c)/(epsilon*N.c+N.m)^kappa) - I.m*(alpha.m*d.c+d.m+gamma.m)
-      dR.m = I.m*gamma.m-R.m*d.m
+      #Dynamics in the core population
+      dS.c <- ifelse((1 - N.c/(k.c*(1.01-phi))) > 0, #IF UNDER CARRYING CAPACITY THEN..
+                     (N.c)*(rmax.c+d.c)*(1 - N.c/(k.c*(1.01-phi))) 
+                     - ((beta.c*S.c*I.c)/N.c^kappa
+                        + (epsilon*psi*beta.m*S.c*I.m)/(N.c+epsilon*N.m)^kappa)
+                     - d.c*S.c 
+                     + sigma.c*R.c, # ELSE... NO BIRTHS
+                     #- ((beta.cc*S.c*I.c)/N.c^kappa
+                     #   + (epsilon*beta.mc*S.c*I.m)/(N.c+epsilon*N.m)^kappa)
+                     - d.c*S.c 
+                     + sigma.c*R.c) 
+      dI.c <- (beta.c*S.c*I.c)/N.c^kappa + (epsilon*phi*beta.m*S.c*I.m)/(N.c+epsilon*N.m)^kappa  - I.c*(alpha.c+d.c+gamma.c)
+      dR.c <- I.c*gamma.c - R.c*(d.c+sigma.c)
+      #Dynamics in the matrix
+      dS.m <-  ifelse((1 - N.m/(k.m*phi)) > 0,
+                      (N.m)*(rmax.m+d.m)*(1 - N.m/(k.m*phi)) 
+                      - ((beta.m*S.m*I.m)/N.m^kappa
+                         + (epsilon*psi*beta.c*S.m*I.c)/(epsilon*N.c+N.m)^kappa) 
+                      - d.m*S.m 
+                      + sigma.m*R.m, 
+                      #- ((beta.mm*S.m*I.m)/N.m^kappa
+                      #    + (epsilon*beta.cm*S.m*I.c)/(epsilon*N.c+N.m)^kappa) 
+                      - d.m*S.m
+                      + sigma.m*R.m)
+      dI.m <- ((beta.m*S.m*I.m)/N.m^kappa + (epsilon*psi*beta.c*S.m*I.c)/(epsilon*N.c+N.m)^kappa) - I.m*(alpha.m+d.m+gamma.m)
+      dR.m <- I.m*gamma.m - R.m*(d.m+sigma.m)
       
       return(list(c(S.c, I.c, R.c, S.m, I.m, R.m)))
     })
