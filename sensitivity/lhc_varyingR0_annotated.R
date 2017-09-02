@@ -10,6 +10,7 @@ s1 <- lhs(1000,rbind(
   #disease characteristics of patch host
   c(0.0192,1), #gamma.c
   c(0,10), #alpha.c
+  c(0,1), #sigma.c
   #####################################
   # transmission between patch and matrix
   c(0.01,1), #psi
@@ -21,6 +22,7 @@ s1 <- lhs(1000,rbind(
   #disease characteristics of matrix host
   c(0.0192,1), #gamma.m
   c(0,10), #alpha.m
+  c(0,1), #sigma.m
   ### R0
   c(1.0,5.0),
   c(0.0,1.0)
@@ -33,12 +35,14 @@ colnames(s1)<-c(
   'k.c',
   'gamma.c', 
   'alpha.c',
+  'sigma.c',
   'psi',
   'rmax.m',
   'd.m',
   'k.m',
   'gamma.m',
   'alpha.m',
+  'sigma.m',
   'R0_C',
   'R0_M')
 
@@ -60,5 +64,5 @@ s1$beta.m <- R0_M*(s1[['gamma.m']]+s1[['alpha.m']]*s1[['d.m']]+s1[['d.m']])
 
 head(s1)
 
-write.csv(s1,"lhc/lhc_humans_fd_R0vary_phi0.1.csv", row.names = F)
+write.csv(s1,"sensitivity/lhc/lhc_humans_fd_R0vary_phi0.1.csv", row.names = F)
 
