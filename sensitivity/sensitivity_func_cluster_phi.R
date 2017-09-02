@@ -4,14 +4,12 @@
 # raina & christina
 ########
 
-s1<- read.csv("lhc/lhc_humans_fd_R0vary_phi0.1.csv",header=T) # dataframe of random parameters
-param.list <- apply(s1,1,as.list) #converting into a list
-times <- seq(0, 50, by = 0.1) #time steps are constant for each run
 
 # cluster version of function
 super_ode <- function(x,times){
   library(deSolve) #library for ode function
-  #x=param.list[[100]]
+  library(pracma)
+  #x=param.list[[40]]
   core.matrix.model <- function(Time, State, Parameters) {
     with(as.list(c(State, Parameters)), {
       N.c = S.c+I.c+R.c
@@ -32,7 +30,15 @@ super_ode <- function(x,times){
   out = as.data.frame(ode(func=core.matrix.model,y=initial.values,parms=x,times=times, method = 'ode45'))
   #return(out)
   max=min(c(nrow(out),length(times)))
-  out.vec=c(out[max,2:7],(out[max,3]/(out[max,2]+out[max,3]+out[max,4])),(out[max,6]/(out[max,5]+out[max,6]+out[max,7])),max)
+  out.vec=c(out[max,2:7],
+            (out[max,3]/(out[max,2]+out[max,3]+out[max,4])),
+            (out[max,6]/(out[max,5]+out[max,6]+out[max,7])),
+            max,
+            trapz(out$time,out[,3]/(out[,2]+out[,3]+out[,4])),
+            trapz(out$time,out[,6]/(out[,5]+out[,6]+out[,7])),
+            max(out[,3]/(out[,2]+out[,3]+out[,4])),
+            max(out[,6]/(out[,5]+out[,6]+out[,7]))
+            )
   return(out.vec)
 }
 
