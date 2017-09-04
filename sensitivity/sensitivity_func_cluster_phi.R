@@ -3,7 +3,9 @@
 # with random generation of parameters
 # raina & christina
 ########
-
+s1<- read.csv("sensitivity/lhc/lhc_humans_fd_R0vary_phi0.1.csv",header=T) # dataframe of random parameters
+param.list <- apply(s1,1,as.list) #converting into a list
+times <- seq(0, 100, by = 0.1) #time steps are constant for each run
 
 # cluster version of function
 super_ode <- function(x,times){
