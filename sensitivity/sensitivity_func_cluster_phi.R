@@ -9,7 +9,7 @@
 super_ode <- function(x,times){
   library(deSolve) #library for ode function
   library(pracma)
-  #x=param.list[[40]]
+  x=param.list[[40]]
   core.matrix.model <- function(Time, State, Parameters) {
     with(as.list(c(State, Parameters)), {
       N.c = S.c+I.c+R.c
@@ -31,11 +31,9 @@ super_ode <- function(x,times){
                         + (epsilon*psi*beta.m*S.c*I.m)/(N.c+epsilon*N.m)^kappa)
                      - d.c*S.c 
                      + sigma.c*R.c, # ELSE... NO BIRTHS
-                     #- ((beta.cc*S.c*I.c)/N.c^kappa
-                     #   + (epsilon*beta.mc*S.c*I.m)/(N.c+epsilon*N.m)^kappa)
                      - d.c*S.c 
                      + sigma.c*R.c) 
-      dI.c <- (beta.c*S.c*I.c)/N.c^kappa + (epsilon*phi*beta.m*S.c*I.m)/(N.c+epsilon*N.m)^kappa  - I.c*(alpha.c+d.c+gamma.c)
+      dI.c <- (beta.c*S.c*I.c)/N.c^kappa + (epsilon*phi*beta.m*S.c*I.m)/(N.c+epsilon*N.m)^kappa  - I.c*(alpha.c*d.c+d.c+gamma.c)
       dR.c <- I.c*gamma.c - R.c*(d.c+sigma.c)
       #Dynamics in the matrix
       dS.m <-  ifelse((1 - N.m/(k.m*phi)) > 0,
@@ -48,13 +46,13 @@ super_ode <- function(x,times){
                       #    + (epsilon*beta.cm*S.m*I.c)/(epsilon*N.c+N.m)^kappa) 
                       - d.m*S.m
                       + sigma.m*R.m)
-      dI.m <- ((beta.m*S.m*I.m)/N.m^kappa + (epsilon*psi*beta.c*S.m*I.c)/(epsilon*N.c+N.m)^kappa) - I.m*(alpha.m+d.m+gamma.m)
+      dI.m <- ((beta.m*S.m*I.m)/N.m^kappa + (epsilon*psi*beta.c*S.m*I.c)/(epsilon*N.c+N.m)^kappa) - I.m*(alpha.m*d.m+d.m+gamma.m)
       dR.m <- I.m*gamma.m - R.m*(d.m+sigma.m)
       
       return(list(c(S.c, I.c, R.c, S.m, I.m, R.m)))
     })
   }
-  initial.values = c(S.c=(1.01-x[['phi']])*x[['k.c']],I.c=1,R.c=0,S.m=x[['phi']]*x[['k.m']],I.m=0,R.m=0) 
+  initial.values = c(S.c=(1.01-x[['phi']])*x[['k.c']]*0.7,I.c=1,R.c=0,S.m=x[['phi']]*x[['k.m']]*0.7,I.m=0,R.m=0) 
   out = as.data.frame(ode(func=core.matrix.model,y=initial.values,parms=x,times=times, method = 'ode45'))
   #return(out)
   max=min(c(nrow(out),length(times)))
