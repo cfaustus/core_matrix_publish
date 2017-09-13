@@ -1,10 +1,11 @@
+rm(list = ls())
 #sensitivity of core-matrix params
 library(sensitivity)
 library(gplots)
 
-out = read.csv("output/out_fd_R0vary_phi0.5_13sept17.csv", header =T)
+out = read.csv("output/out_dd_R0vary_phi0.9_13sept17.csv", header =T)
 #out is the dataframe that the sensitivity_func_cluster outputs
-s1 = read.csv("sensitivity/lhc/lhc_humans_fd_R0vary_phi0.5.csv",header=T) 
+s1 = read.csv("sensitivity/lhc/lhc_humans_fd_R0vary_phi0.9.csv",header=T) 
 var = c("b.c", 'd.c', 'k.c','R0_C', 'beta.c', 'gamma.c', 'alpha2.c', 
         'psi', 
         "b.m", 'd.m', 'k.m','R0_M', 'beta.m', 'gamma.m', 'alpha2.m')
