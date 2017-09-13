@@ -46,8 +46,7 @@ dS.c2 <- ifelse((1 - N.c2/(x$k.c*(1.01-x$phi))) > 0, #IF UNDER CARRYING CAPACITY
                ((N.c2)*(x$rmax.c+x$d.c)*(1 - N.c2/(x$k.c*(1.01-x$phi)))- 
                  ((x$beta.c*S.c2*I.c2)/N.c^x$kappa +
                  (x$epsilon*x$psi*x$beta.m*S.c2*I.m2)/(N.c2+x$epsilon*N.m2)^x$kappa) - 
-                 x$d.c*S.c2 + 
-                 x$sigma.c*R.c2), # ELSE... NO BIRTHS
+                 x$d.c*S.c2 + x$sigma.c*R.c2), # ELSE... NO BIRTHS
                  (- x$d.c*S.c2 + x$sigma.c*R.c2))
 dI.c2 <- (x$beta.c*S.c2*I.c2)/N.c^x$kappa + (x$epsilon*x$phi*x$beta.m*S.c2*I.m2)/(N.c2+x$epsilon*N.m2)^x$kappa  - I.c2*(x$alpha.c*x$d.c+x$d.c+x$gamma.c)
 dR.c2 <- I.c2*x$gamma.c - R.c2*(x$d.c+x$sigma.c)
