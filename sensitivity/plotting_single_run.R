@@ -16,3 +16,13 @@ plot.dynamics<- function(x,kc,km){
 plot.dynamics(out, x[['k.c']], x[['k.m']])
 
 
+head(out)
+par(mfrow=c(2,1))
+plot(out$time,out$S.c, type='l')
+lines(out$time, out$I.c, col='darkred')
+lines(out$time, out$R.c, col = 'forestgreen')
+
+plot(out$time,out$S.m, type='l')
+lines(out$time, out$I.c, col='darkred')
+lines(out$time, out$R.c, col = 'forestgreen')
+
