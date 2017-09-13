@@ -6,7 +6,7 @@
 
 rm(list = ls())
 
-source('core_matrix_baseline_func.R')
+source('sim_core_matrix_baseline_func.R')
 library(deSolve)
 library(plyr)
 
