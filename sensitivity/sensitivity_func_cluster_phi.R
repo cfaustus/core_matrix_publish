@@ -5,13 +5,13 @@
 ########
 s1<- read.csv("sensitivity/lhc/lhc_humans_fd_R0vary_phi0.1.csv",header=T) # dataframe of random parameters
 param.list <- apply(s1,1,as.list) #converting into a list
-times <- seq(0, 20, by = 0.0001) #time steps are constant for each run
+times <- seq(0, 20, by = 0.01) #time steps are constant for each run
 
 # cluster version of function
 super_ode <- function(x,times){
   library(deSolve) #library for ode function
   library(pracma)
-  x=param.list[[100]]
+  #x=param.list[[1000]]
   core.matrix.model <- function(Time, State, Parameters) {
     with(as.list(c(State, Parameters)), {
       N.c = S.c+I.c+R.c
@@ -26,7 +26,7 @@ super_ode <- function(x,times){
                       - d.c*S.c + sigma.c*R.c)) 
       dI.c <- (beta.c*S.c*I.c)/N.c^kappa + (epsilon*phi*beta.m*S.c*I.m)/(N.c+epsilon*N.m)^kappa  - I.c*(alpha.c*d.c+d.c+gamma.c)
       dR.c <- I.c*gamma.c - R.c*(d.c+sigma.c)
-      #Dynamics in the matrix
+      
       dS.m <-  ifelse((1 - N.m/(k.m*phi)) > 0,
                       ((N.m)*(rmax.m+d.m)*(1 - N.m/(k.m*phi)) - ((beta.m*S.m*I.m)/N.m^kappa
                          + (epsilon*psi*beta.c*S.m*I.c)/(epsilon*N.c+N.m)^kappa) 
@@ -35,7 +35,7 @@ super_ode <- function(x,times){
       dI.m <- ((beta.m*S.m*I.m)/N.m^kappa + (epsilon*psi*beta.c*S.m*I.c)/(epsilon*N.c+N.m)^kappa) - I.m*(alpha.m*d.m+d.m+gamma.m)
       dR.m <- I.m*gamma.m - R.m*(d.m+sigma.m)
       
-      return(list(c(S.c, I.c, R.c, S.m, I.m, R.m)))
+      return(list(c(dS.c, dI.c, dR.c,dS.m, dI.m, dR.m)))
     })
   }
   initial.values = c(S.c=(1.01-x[['phi']])*x[['k.c']]*0.9,I.c=1,R.c=0,S.m=x[['phi']]*x[['k.m']]*0.9,I.m=0,R.m=0) 
