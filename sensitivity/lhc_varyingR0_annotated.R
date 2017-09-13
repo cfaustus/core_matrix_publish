@@ -62,6 +62,13 @@ s1$kappa=1 # freq dependent
 s1$beta.c <- R0_C*(s1[['gamma.c']]+s1[['alpha.c']]*s1[['d.c']]+s1[['d.c']])
 s1$beta.m <- R0_M*(s1[['gamma.m']]+s1[['alpha.m']]*s1[['d.m']]+s1[['d.m']])
 
+s1$b.c = s1$rmax.c + s1$d.c
+s1$b.m = s1$rmax.m + s1$d.m
+
+s1$alpha2.c = s1$alpha.c*s1$d.c
+s1$alpha2.m = s1$alpha.m*s1$d.m
+
+
 head(s1)
 
 write.csv(s1,"sensitivity/lhc/lhc_humans_fd_R0vary_phi0.1.csv", row.names = F)
