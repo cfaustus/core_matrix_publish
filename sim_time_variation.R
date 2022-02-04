@@ -1,7 +1,7 @@
 ################################################################################
 ## script to look at how rate & amount of deforestation affect disease over time
-## messy script made by christina.faust@gmail.com 14 april 16
-## cleaned...by future christina
+##  script made by christina.faust@gmail.com 14 april 16
+
 ################################################################################
 
 rm(list = ls())
