@@ -1,17 +1,10 @@
 ############################################################
 # Code for NGM R0
-## FD & DD transmission
+# FD & DD transmission
 ############################################################
 # R0 at different phi + psi
-# varying 
 # just by calculating a pathogen that comes into a completely naive population 
 # at carrying capacity for that proportion converted
-
-## i.	Change  to vary with land conversion. Could have one increase within
-## host transmission but not between host transmission, another could do both. 
-## [for immune mediated susceptibility vs. crowding? Is there a difference] 
-## (R1, major.C2/ minor.C7/ minor.C8; R2, minor.C1)
-
 ############################################################
 
 rm(list = ls())
@@ -23,7 +16,7 @@ source('deterministic_ngm_cm_func.R')
 phi = seq(0.01, 1, by = 0.001) #vector for different forested proportions
 epsilon = (1+cos(phi*(pi*3/2)-2.3))
 #epsilon = rep.int(1,length(phi)) # no change in edge effects
-psi = seq(0,1, by=0.05) # aka psi
+psi = seq(0,1, by=0.05) # aka between
 R0C = 0.5
 R0M = 1.5
 
