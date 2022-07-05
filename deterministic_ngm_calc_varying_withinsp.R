@@ -17,8 +17,8 @@ phi = seq(0.01, 1, by = 0.001) #vector for different forested proportions
 epsilon = (1+cos(phi*(pi*3/2)-2.3))
 #epsilon = rep.int(1,length(phi)) # no change in edge effects
 psi = seq(0,1, by=0.05) # aka between
-R0C = 0.5
-R0M = 1.5
+R0C = 1.5
+R0M = 0.5
 
 ############################################################
 ## DENSITY DEPENDENT R0
@@ -40,13 +40,12 @@ R0.m.dd = numeric(length(phi))
 R0.combin.dd = data.frame(matrix(NA, nrow = length(psi), ncol = length(phi)))
 
 
-beta_c = R0_c*(paramsD[['alpha']][1] + paramsD[['gamma']][1] + paramsD[['d']][1])
-beta_m = R0_m*(paramsD[['alpha']][2] + paramsD[['gamma']][2] + paramsD[['d']][2])
+beta_c = R0C*(paramsD[['alpha']][1] + paramsD[['gamma']][1] + paramsD[['d']][1])
+beta_m = R0M*(paramsD[['alpha']][2] + paramsD[['gamma']][2] + paramsD[['d']][2])
 beta = list(c(beta_c, beta_m))
+paramsD[['beta.wDD']] = beta 
 plot(phi, epsilon, col = 'black',
      ylab = 'relative rates')
-lines(phi, beta.wDD, col = 'navy')
-lines(phi, beta.wFD, col = 'gray80')
 #epsilon = (1+cos(phi*(pi*3/2)-2.3))
 
 
